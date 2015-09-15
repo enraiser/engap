@@ -1,0 +1,27 @@
+enGap is a mobile app development framework, to quickly build a mobile App for your website.
+
+Developer can build Pages,Views and theme and keep the files on server.
+
+This elgg plugin enables you to see the mobile app of your ELGG site. in quick 3 steps.
+
+(0) activate web-service plugin for 1.9 (onward).
+
+(1) install and activate enGap plugin.
+
+(2) Install the enGap app on your mobile. 
+
+    android play-store :https://play.google.com/store/apps/details?id=com.enraiser.engap
+
+    iPhone app-store : https://itunes.apple.com/us/app/engap/id945681327
+
+(3)Configure the app with your site-name and site-URL(with forward slash /, like http://xyz.com/)
+
+Login to your site with your username/password
+
+For more information visit http://engap.org/
+
+Note :
+
+(1)This is not a responsive theme so only plugin is not sufficient. You need to download the mobile app too.
+
+(2) The mobile app is not for personal usage, its only a test tool, which help in testing your plugin code. Your final application is suppose to be built fresh.
