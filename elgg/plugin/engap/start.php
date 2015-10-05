@@ -82,6 +82,7 @@ function engape_init() {
  }
 
 function engap_gettoken($username, $password) {
+     header('Access-Control-Allow-Origin: *');
 	//error_log("user".$username);
 	
     if (is_email_address($username)) {
@@ -135,6 +136,7 @@ function engap_page_handler($segments)
     
     
 function eg_reg_user($email,$password){
+     header('Access-Control-Allow-Origin: *');
 	$ar=split("@",$email);
     $username = $ar[0];
     $access_status = access_get_show_hidden_status();
@@ -157,6 +159,7 @@ function eg_reg_user($email,$password){
 }
     
 function eg_refresh_entity_icons($refreshlist){
+     header('Access-Control-Allow-Origin: *');
     if($refreshlist!='none')
         $refresharr=explode(",", $refreshlist);
     else $refresharr = array();
@@ -171,6 +174,8 @@ function eg_refresh_entity_icons($refreshlist){
     return $return;
 }
 function eg_sync_entities($guids,$iconguids){
+    header('Access-Control-Allow-Origin: *');
+    $return = array();
     if($iconguids!='none')
         $refresharr=explode(",", $iconguids);
     else $refresharr = array();
@@ -197,7 +202,7 @@ function eg_sync_entities($guids,$iconguids){
     return $return;
 }
 function eg_list_river($refid,$type,$extra,$optr,$limit){
-
+    header('Access-Control-Allow-Origin: *');
     $owner_guid = elgg_get_logged_in_user_guid();
 
     $db_prefix = elgg_get_config('dbprefix');
@@ -274,6 +279,7 @@ function eg_list_river($refid,$type,$extra,$optr,$limit){
     return $return;
 }
 function eg_list_entity($type,$subtype,$refguid,$limit,$extra,$optr){
+    header('Access-Control-Allow-Origin: *');
     if($refguid=='none')$refguid=0;
 
     
@@ -335,14 +341,15 @@ if($optr == 'lt'){
 }
 
 function eg_get_entity($guid){
-
+        header('Access-Control-Allow-Origin: *');
         $entity = get_entity($guid);
         $entity_title = $entity->title ? $entity->title : $entity->name;
-        $subtype = $entity->subtype ? $riverobj->subtype : 'default';
+        $subtype = $entity->subtype ? $entity->subtype : 'default';
         $description = $entity->briefdescription ? $entity->briefdescription : elgg_get_excerpt($entity->description);
         return array("title"=>$entity_title,"guid"=>$entity->guid,"iconurl"=>$entity->getIconURL(),"type"=>$entity->type,"subtype"=>$subtype,'description'=>$description);
 }
 function eg_wire_post($wire_post){
+    header('Access-Control-Allow-Origin: *');
 	error_log('here is wirepost - '.$wire_post);
 	$userid = elgg_get_logged_in_user_guid();
 	$access_id = "public";
