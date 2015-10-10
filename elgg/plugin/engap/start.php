@@ -89,6 +89,7 @@ function engap_gettoken($username, $password) {
 		$users = get_user_by_email($username);
         if (is_array($users) && (count($users) == 1)) {
             $user = $users[0];
+            $username = $user->username;
 		}
     }else{
         $user = get_user_by_username($username);
