@@ -76,13 +76,31 @@ function engape_init() {
 		false,
 		false
 	);
-
+    expose_function(
+		"engap.refreshtoken",
+		"engap_refreshtoken",
+		false,
+		elgg_echo('engap.refreshtoken'),
+		'GET',
+		false,
+		true
+	);
     elgg_register_page_handler('engap', 'engap_page_handler');
 
  }
+function engape_rest_init($hook, $type, $returnvalue, $params) {
+    //TBD $method = get_input('method');  do only if method is engap related
+     header('Access-Control-Allow-Origin: *');
+    return false;
+}
+function engap_refreshtoken(){
+    $token = create_user_token($username,1440);
+    $return['token'] = $token;
+    return $return;
+}
 
 function engap_gettoken($username, $password) {
-     header('Access-Control-Allow-Origin: *');
+    
 	//error_log("user".$username);
 	
     if (is_email_address($username)) {
@@ -101,7 +119,7 @@ function engap_gettoken($username, $password) {
             //expiry in minute
             //1 hour = 60
             //24 hours = 1440
-            $token = create_user_token($username,1440); //60 minutes
+            $token = create_user_token($username,1440); //1 day
             if ($token) {
                 $return['token'] = $token;
                 $return['username'] = $user->username;
@@ -119,7 +137,7 @@ function engap_gettoken($username, $password) {
  
 function engap_page_handler($segments)
 {
-     header('Access-Control-Allow-Origin: *');
+    
      header('Cache-Control: max-age=2592000');
     elgg_set_viewtype('engap');
         $view_path  = implode("/", $segments);
@@ -137,7 +155,7 @@ function engap_page_handler($segments)
     
     
 function eg_reg_user($email,$password){
-     header('Access-Control-Allow-Origin: *');
+    
 	$ar=split("@",$email);
     $username = $ar[0];
     $access_status = access_get_show_hidden_status();
@@ -160,7 +178,7 @@ function eg_reg_user($email,$password){
 }
     
 function eg_refresh_entity_icons($refreshlist){
-     header('Access-Control-Allow-Origin: *');
+    
     if($refreshlist!='none')
         $refresharr=explode(",", $refreshlist);
     else $refresharr = array();
@@ -175,7 +193,7 @@ function eg_refresh_entity_icons($refreshlist){
     return $return;
 }
 function eg_sync_entities($guids,$iconguids){
-    header('Access-Control-Allow-Origin: *');
+   
     $return = array();
     if($iconguids!='none')
         $refresharr=explode(",", $iconguids);
@@ -203,7 +221,7 @@ function eg_sync_entities($guids,$iconguids){
     return $return;
 }
 function eg_list_river($refid,$type,$extra,$optr,$limit){
-    header('Access-Control-Allow-Origin: *');
+   
     $owner_guid = elgg_get_logged_in_user_guid();
 
     $db_prefix = elgg_get_config('dbprefix');
@@ -280,7 +298,7 @@ function eg_list_river($refid,$type,$extra,$optr,$limit){
     return $return;
 }
 function eg_list_entity($type,$subtype,$refguid,$limit,$extra,$optr){
-    header('Access-Control-Allow-Origin: *');
+   
     if($refguid=='none')$refguid=0;
 
     
@@ -342,7 +360,7 @@ if($optr == 'lt'){
 }
 
 function eg_get_entity($guid){
-        header('Access-Control-Allow-Origin: *');
+       
         $entity = get_entity($guid);
         $entity_title = $entity->title ? $entity->title : $entity->name;
         $subtype = $entity->subtype ? $entity->subtype : 'default';
@@ -350,7 +368,7 @@ function eg_get_entity($guid){
         return array("title"=>$entity_title,"guid"=>$entity->guid,"iconurl"=>$entity->getIconURL(),"type"=>$entity->type,"subtype"=>$subtype,'description'=>$description);
 }
 function eg_wire_post($wire_post){
-    header('Access-Control-Allow-Origin: *');
+   
 	error_log('here is wirepost - '.$wire_post);
 	$userid = elgg_get_logged_in_user_guid();
 	$access_id = "public";
