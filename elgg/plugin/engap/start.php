@@ -137,8 +137,8 @@ function engap_gettoken($username, $password) {
  
 function engap_page_handler($segments)
 {
-    
-     header('Cache-Control: max-age=2592000');
+    header('Access-Control-Allow-Origin: *');
+    header('Cache-Control: max-age=2592000');
     elgg_set_viewtype('engap');
         $view_path  = implode("/", $segments);
 		$aj = elgg_view($view_path,array());
