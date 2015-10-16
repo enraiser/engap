@@ -86,6 +86,7 @@ function engape_init() {
 		true
 	);
     elgg_register_page_handler('engap', 'engap_page_handler');
+    elgg_register_plugin_hook_handler('rest', 'init', 'engape_rest_init');
 
  }
 function engape_rest_init($hook, $type, $returnvalue, $params) {
