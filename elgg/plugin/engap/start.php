@@ -79,7 +79,7 @@ function engape_init() {
     expose_function(
 		"engap.refreshtoken",
 		"engap_refreshtoken",
-		false,
+		array(),
 		elgg_echo('engap.refreshtoken'),
 		'GET',
 		false,
@@ -87,7 +87,6 @@ function engape_init() {
 	);
     elgg_register_page_handler('engap', 'engap_page_handler');
     elgg_register_plugin_hook_handler('rest', 'init', 'engape_rest_init');
-
  }
 function engape_rest_init($hook, $type, $returnvalue, $params) {
     //TBD $method = get_input('method');  do only if method is engap related
@@ -146,10 +145,8 @@ function engap_page_handler($segments)
         //echo elgg_view($view_path,array());
 		if($aj) echo $aj;
 		else  {
-            echo "<ons-page id='no-page'><ons-toolbar><div class='left' style='color: #1284ff;' onclick='handle_go_back()'><ons-icon icon='ion-android-arrow-back'></ons-icon>Back</div><div class='center'>Not Found</div></ons-toolbar><br>";
-            
-            echo "<p>The View '".$view_path."' is not found at engap_page_handler()</p>";
-            echo"</ons-page>";
+            header("HTTP/1.1 404 Not Found");
+            echo "The View '".$view_path."' is not found at engap_page_handler()";
         }
     return true;
 }
