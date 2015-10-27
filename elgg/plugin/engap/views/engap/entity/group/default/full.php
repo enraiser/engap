@@ -4,7 +4,7 @@
     
 ?>
 
-<ons-page   style="background-color: #f9f9f9;" >
+<ons-page>
     <ons-toolbar>
         <div class="left" style="color: #1284ff;" onclick="handle_go_back()"><ons-icon icon="ion-android-arrow-back"></ons-icon>Back</div>
 <div class="center"><?php echo $group->name;?></div>

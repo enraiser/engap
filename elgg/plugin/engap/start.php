@@ -88,6 +88,25 @@ function engape_init() {
     elgg_register_page_handler('engap', 'engap_page_handler');
     elgg_register_plugin_hook_handler('rest', 'init', 'engape_rest_init');
  }
+ function eg_chat_post($chatp_guid,$chat_post){
+   
+	error_log('here is chatpost - '.$chat_post);
+	$userid = elgg_get_logged_in_user_guid();
+	$query = "insert into  `chathistory` (`to_guid`,`from_guid`,`message`,`date`) values('".$chatp_guid."','".$userid."','".$chat_post."','".date('Y-m-d H:i')."')";
+	insert_data($query);
+	$last_record_id = "select `id` from `chathistory` where `from_guid`=".$userid." order by id desc limit 1";
+	$aj = get_data($last_record_id);
+	return json_encode($aj);
+} 
+function eg_chat_get($chatp_guid,$refid,$optr){
+	if($optr = "gt")  $myoptr =">";
+	elseif($optr = "lt")  $myoptr ="<";
+	$userid = elgg_get_logged_in_user_guid();
+	 $query2 = "SELECT * FROM `chathistory` where id ".$myoptr.$refid." AND((to_guid= ".$chatp_guid." AND from_guid = ".$userid.") OR (to_guid= ".$userid." AND from_guid = ".$chatp_guid.")) limit 10";
+	$aj = get_data($query2);
+	$data = json_encode($aj);
+	return $data; 
+}
 function engape_rest_init($hook, $type, $returnvalue, $params) {
     //TBD $method = get_input('method');  do only if method is engap related
      header('Access-Control-Allow-Origin: *');
