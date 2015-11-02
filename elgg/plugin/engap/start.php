@@ -85,6 +85,23 @@ function engape_init() {
 		false,
 		true
 	);
+    
+    expose_function("chat.post",
+    "eg_chat_post",
+    array("cp_guid" => array('type' => 'string'),"chat_post" => array('type' => 'string'),),
+    'Chat Post',
+    'POST',
+    false,
+    true
+    );
+	expose_function("chat.get",
+    "eg_chat_get",
+    array("cp_guid" => array('type' => 'string'),"refid" => array('type' => 'string'),"optr" => array('type' => 'string'),),
+    'Chat Get',
+    'GET',
+    false,
+    true
+    );
     elgg_register_page_handler('engap', 'engap_page_handler');
     elgg_register_plugin_hook_handler('rest', 'init', 'engape_rest_init');
  }
