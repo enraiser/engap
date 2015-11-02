@@ -10,9 +10,6 @@
 	<requires>
 		<type>elgg_release</type>
 		<version>1.8</version>
-        <type>plugin</type>
-		<name>webservices</name>
-        <version>1.8</version>
 	</requires>
 
 	<category>communication</category>
