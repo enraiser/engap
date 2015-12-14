@@ -11,6 +11,7 @@
 </ons-list>
 <ons-list-header>Help and Setting</ons-list-header>
 <ons-list-item onclick='logout_user();'>Logout</ons-list-item>
+<ons-list-item onclick='load_page("editprofile");'>Edit Profile</ons-list-item>
 <ons-list-item><a href='http://engap.org'>External.</a></ons-list-item>
 </ons-list>
 

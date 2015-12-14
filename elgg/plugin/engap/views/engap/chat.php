@@ -4,7 +4,6 @@
         <div class="center">{{chatuser}}</div>
         <div class="right">
         <ons-icon icon="ion-android-share" onclick='load_page("sharepage");'></ons-icon>
-        <ons-icon icon="ion-speakerphone" onclick='load_page("pushmessages");'></ons-icon>
         </div>
       </ons-toolbar>
       <div style='width:100%;z-index:999;position:fixed;background-color:#A51EC5;height:35px;padding-bottom:3px;'>

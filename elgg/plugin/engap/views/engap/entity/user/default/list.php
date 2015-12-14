@@ -10,11 +10,8 @@
 			{{content.description}}			
 		</div>
 	</div>
-	<?php 
-	global $chat;
-	if($chat == true){ ?>
 	<div style='width:10%;float:right;'>
 		<div><ons-icon icon="ion-chatbox" ng-click="chatwith()" ></ons-icon></div>
 	</div>
-	<?php }?>
+
 </div>

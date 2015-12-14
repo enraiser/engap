@@ -12,7 +12,7 @@
   <ons-page id='home-page'  style="background-color: #f9f9f9;" >
     <ons-toolbar>
         
-		<div class="center" ng-controller="site_nameController">{{site_name}}</div>
+		<div class="center" >{{site_name}}</div>
         <div class="right" style="margin-right:15px;">
             <ons-icon icon="ion-android-share" onclick='load_page("sharepage");'></ons-icon>
             <ons-icon icon="ion-navicon-round" onclick="sidebar();"></ons-icon>
@@ -24,6 +24,7 @@
         <ons-list>
             <ons-list-header>ELGG Sidebar</ons-list-header>
             <ons-list-item onclick='load_page("timeline");'>My Timeline</ons-list-item>
+            <ons-list-item onclick='load_page("editprofile");'>Edit My Profile</ons-list-item>
         </ons-list>
    </sidebar>
 </ons-page>
