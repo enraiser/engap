@@ -101,6 +101,14 @@ function engape_init() {
     false,
     true
     );
+    elgg_ws_expose_function("submit.form",
+                "eg_submit_form",
+                 array("formname" => array('type' => 'string'),"formdata" => array('type' => 'string'),),
+                 'html form',
+                 'POST',
+                 false,
+                 true
+                );
     elgg_register_page_handler('engap', 'engap_page_handler');
     elgg_register_plugin_hook_handler('rest', 'init', 'engape_rest_init');
  }
@@ -365,7 +373,7 @@ if($optr == 'gt'){
         $return['gt'][]=array("title"=>$entity_title,"guid"=>$entity->guid,"iconurl"=>$entity->getIconURL(),'description'=>$description,"icontime"=>$it,"time"=>$entity->time_updated);
     }
 }
-if($refguid!=0){
+if($refguid!=0){//DOWBT shall we add   'and $optr!='lt''
     error_log('checking sync');
 
     $option = array(
