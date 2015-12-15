@@ -7,7 +7,7 @@
 elgg_register_event_handler('init', 'system', 'engape_init');
 
 function engape_init() {
-	elgg_ws_expose_function("reg.user",
+	expose_function("reg.user",
                 "eg_reg_user",
                  array("email" => array('type' => 'string'),"password" => array('type' => 'string')),
                  'Register a new Users',
@@ -15,7 +15,7 @@ function engape_init() {
                  false,
                  false
                 );
-	elgg_ws_expose_function("list.river",
+	expose_function("list.river",
                 "eg_list_river",
                  array("refid" => array('type' => 'string'),"type" => array('type' => 'string'),"extra" => array('type' => 'string'),"optr" => array('type' => 'string'),"limit" => array('type' => 'string')),
                  'Provide List of activity',
@@ -23,7 +23,7 @@ function engape_init() {
                  false,
                  true
                 );
-	elgg_ws_expose_function("list.entity",
+	expose_function("list.entity",
                 "eg_list_entity",
                  array("type" => array('type' => 'string'),"subtype" => array('type' => 'string'),"refguid" => array('type' => 'string'),"limit" => array('type' => 'string'),"extra" => array('type' => 'string'),"optr" => array('type' => 'string')),
                  'provide list of entity',
@@ -31,7 +31,7 @@ function engape_init() {
                  false,
                  true
                 );
-    elgg_ws_expose_function("get.entity",
+    expose_function("get.entity",
                     "eg_get_entity",
                     array("guid" => array('type' => 'string')),
                     'Get the properties of an Entity',
@@ -39,7 +39,7 @@ function engape_init() {
                     false,
                     false
                     );
-    elgg_ws_expose_function("refresh.icons",
+    expose_function("refresh.icons",
                     "eg_refresh_entity_icons",
                     array("refreshlist" => array('type' => 'string')),
                     'returns icontimes for given  set of icons',
@@ -47,7 +47,7 @@ function engape_init() {
                     false,
                     true
                     );
-    elgg_ws_expose_function("sync.entities",
+    expose_function("sync.entities",
                     "eg_sync_entities",
                     array("guids" => array('type' => 'string'),"iconguids" => array('type' => 'string')),
                     'returns icontimes for given  set of icons',
@@ -56,7 +56,7 @@ function engape_init() {
                     true
                     );
 
-	elgg_ws_expose_function("wire.post",
+	expose_function("wire.post",
                 "eg_wire_post",
                  array("wire_post" => array('type' => 'string'),),
                  'Wire Post',
@@ -64,7 +64,7 @@ function engape_init() {
                  false,
                  true
                 );
-	elgg_ws_expose_function(
+	expose_function(
 		"engap.gettoken",
 		"engap_gettoken",
 		array(
@@ -76,7 +76,7 @@ function engape_init() {
 		false,
 		false
 	);
-    elgg_ws_expose_function(
+    expose_function(
 		"engap.refreshtoken",
 		"engap_refreshtoken",
 		array(),
@@ -85,7 +85,7 @@ function engape_init() {
 		false,
 		true
 	);
-    elgg_ws_expose_function("chat.post",
+    expose_function("chat.post",
     "eg_chat_post",
     array("cp_guid" => array('type' => 'string'),"chat_post" => array('type' => 'string'),),
     'Chat Post',
@@ -93,7 +93,7 @@ function engape_init() {
     false,
     true
     );
-	elgg_ws_expose_function("chat.get",
+	expose_function("chat.get",
     "eg_chat_get",
     array("cp_guid" => array('type' => 'string'),"refid" => array('type' => 'string'),"optr" => array('type' => 'string'),),
     'Chat Get',
@@ -101,7 +101,7 @@ function engape_init() {
     false,
     true
     );
-    elgg_ws_expose_function("submit.form",
+    expose_function("submit.form",
                 "eg_submit_form",
                  array("formname" => array('type' => 'string'),"formdata" => array('type' => 'string'),),
                  'html form',
@@ -427,4 +427,4 @@ function eg_wire_post($wire_post){
 	$access_id = "public";
 	 $return['guid']  =  thewire_save_post($wire_post,$userid,$access_id);
 	return $return;
-} 
+}
