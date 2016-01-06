@@ -166,6 +166,7 @@ function engap_gettoken($username, $password) {
             if ($token) {
                 $return['token'] = $token;
                 $return['username'] = $user->username;
+		$return['user_guid'] = $user->guid;
                 $return['email'] = $user->email;
                 $plugin = elgg_get_plugin_from_id("engap");
                 $return['plugin_version'] = $plugin->getManifest()->getVersion();
