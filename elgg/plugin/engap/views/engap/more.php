@@ -1,7 +1,7 @@
 <ons-page id='more'  style="background-color: #f9f9f9;" >
     <ons-toolbar>
         <div class="center">More</div>
-        <div class="right" style="margin-right:15px;">
+        <div class="right">
             <ons-icon icon="ion-android-share" onclick='load_page("sharepage");'></ons-icon>
         </div>
     </ons-toolbar>
