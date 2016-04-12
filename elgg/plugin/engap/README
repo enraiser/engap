@@ -13,13 +13,12 @@ This elgg plugin enables you to see the mobile app of your ELGG site. in quick 3
     android play-store :https://play.google.com/store/apps/details?id=com.enraiser.engap
 
     iPhone app-store : https://itunes.apple.com/us/app/engap/id945681327
-    [The latest version of plugin 0.9 is not compitible with iOS App.( the license is expired). So test only with Android]
 
 (3)Configure the app with your site-name and site-URL(with forward slash /, like http://xyz.com/)
 
 Login to your site with your username/password
 
-For more information visit http://engap.org/
+For more information visit https://engap.enraiser.com/
 
 Note :
 
