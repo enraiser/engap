@@ -216,7 +216,8 @@ function eg_submit_form($formname,$formdata){
 
 function eg_reg_user($email,$password){
     
-	$ar=split("@",$email);
+	//$ar=str_split("@",$email);
+	$ar=explode("@",$email);
     $username = $ar[0];
     $access_status = access_get_show_hidden_status();
     access_show_hidden_entities(true);
