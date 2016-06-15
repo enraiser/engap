@@ -7,6 +7,7 @@
 elgg_register_event_handler('init', 'system', 'engape_init');
 
 function engape_init() {
+	elgg_register_page_handler('face_upload', 'engap_faceupload_page_handler');
 	expose_function("reg.user",
                 "eg_reg_user",
                  array("email" => array('type' => 'string'),"password" => array('type' => 'string')),
@@ -126,7 +127,7 @@ function eg_chat_get($chatp_guid,$refid,$optr){
 	if($optr = "gt")  $myoptr =">";
 	elseif($optr = "lt")  $myoptr ="<";
 	$userid = elgg_get_logged_in_user_guid();
-	 $query2 = "SELECT * FROM `chathistory` where id ".$myoptr.$refid." AND((to_guid= ".$chatp_guid." AND from_guid = ".$userid.") OR (to_guid= ".$userid." AND from_guid = ".$chatp_guid.")) limit 10";
+	$query2 = "SELECT * FROM `chathistory` where id ".$myoptr.$refid." AND((to_guid= ".$chatp_guid." AND from_guid = ".$userid.") OR (to_guid= ".$userid." AND from_guid = ".$chatp_guid."))";//may be limit 10 needed  - Aj
 	$aj = get_data($query2);
 	$data = json_encode($aj);
 	return $data; 
@@ -166,8 +167,11 @@ function engap_gettoken($username, $password) {
             if ($token) {
                 $return['token'] = $token;
                 $return['username'] = $user->username;
-		$return['user_guid'] = $user->guid;
+				$return['user_guid'] = $user->guid;
                 $return['email'] = $user->email;
+                $return['phone'] = $user->phone;
+                $return['city'] = $user->city;
+				$return['avatar_path'] = $user->getIconURL('large');
                 $plugin = elgg_get_plugin_from_id("engap");
                 $return['plugin_version'] = $plugin->getManifest()->getVersion();
     
@@ -203,6 +207,8 @@ function eg_submit_form($formname,$formdata){
         $owner = elgg_get_logged_in_user_entity();
         error_log($owner->name." phone  ".$owner->phone);
         $owner->phone = $form_obj->phone;
+        $owner->email = $form_obj->email;
+        $owner->name = $form_obj->name;
         $owner->save();
     }
   return "success";
@@ -232,7 +238,7 @@ function eg_reg_user($email,$password){
 }
     
 function eg_refresh_entity_icons($refreshlist){
-    
+    $return = array();
     if($refreshlist!='none')
         $refresharr=explode(",", $refreshlist);
     else $refresharr = array();
@@ -288,7 +294,7 @@ function eg_list_river($refid,$type,$extra,$optr,$limit){
 			'wheres' => array("
                           rv.id $optr $refid AND (
                           rv.subject_guid = $owner_guid
-                          OR rv.subject_guid IN (SELECT guid_two FROM {$db_prefix}entity_relationships WHERE guid_one=$owner_guid AND relationship='follower')
+                          OR rv.subject_guid IN (SELECT guid_two FROM {$db_prefix}entity_relationships WHERE guid_one=$owner_guid AND relationship='friend')
                           OR rv.subject_guid IN (SELECT guid_one FROM {$db_prefix}entity_relationships WHERE guid_two=$owner_guid AND relationship='friend'))
                       "),
         );
@@ -341,7 +347,9 @@ function eg_list_river($refid,$type,$extra,$optr,$limit){
                 $object_text = $obj->title ? $obj->title : $obj->name;
                 $summary = elgg_echo($key, array($subject->name, $object_text));
         }
-		$objsubtype = $obj->subtype ? $obj->subtype : 'default';			
+		$objsubtype = $obj->getSubtype();
+		if(!$objsubtype) $objsubtype = 'default';
+		//$objsubtype = $obj->subtype ? $obj->subtype : 'default';			
 		$objectpath = "entity/".$obj->type."/".$objsubtype."/";//TBD shall we remove entity from object path.
         $description = $obj->briefdescription ? $obj->briefdescription : elgg_get_excerpt($obj->description);
 		$return['fresh'][] = array("id"=>$riverobj->id,"title"=>$summary,"description"=>$description,"subject"=>$subject->getGUID(),"object"=>$obj->getGUID(),"objectpath"=>$objectpath);
@@ -354,7 +362,7 @@ function eg_list_river($refid,$type,$extra,$optr,$limit){
 function eg_list_entity($type,$subtype,$refguid,$limit,$extra,$optr){
    
     if($refguid=='none')$refguid=0;
-
+    if($refguid=='undefined')$refguid=0;
     
 if($optr == 'gt'){
     error_log('refguid = '.$refguid.',  operator = '.$optr);
@@ -428,4 +436,64 @@ function eg_wire_post($wire_post){
 	$access_id = "public";
 	 $return['guid']  =  thewire_save_post($wire_post,$userid,$access_id);
 	return $return;
+} 
+function engap_faceupload_page_handler($page) {
+//elgg_load_library('elgg:facepp');
+$ia = elgg_set_ignore_access(true);
+	header('Access-Control-Allow-Origin: *');
+
+	$image_title = $_POST['image_title'];
+	$image_pos = $_POST['image_pos'];
+    $user = get_user_by_username($_POST['username']);
+
+    login($user);
+
+
+
+	if($image_pos == 0){
+        $guid = $user->guid;
+
+        $icon_sizes = elgg_get_config('icon_sizes');
+
+        $tfiles = array();
+        foreach ($icon_sizes as $name => $size_info) {
+
+			$resized = get_resized_image_from_uploaded_file('file', $size_info['w'], $size_info['h'], $size_info['square'], $size_info['upscale']);
+            if ($resized) {
+                //@todo Make these actual entities.  See exts #348.
+                $file = new ElggFile();
+                $file->owner_guid = $guid;
+                $file->setFilename("profile/{$guid}{$name}.jpg");
+                $file->open('write');
+                $file->write($resized);
+                $file->close();
+                $tmpfiles[] = $file;
+            } else {
+                // cleanup on fail
+                foreach ($tmpfiles as $tfile) {
+                    $tfile->delete();
+                }
+            }
+        }
+
+        $user->icontime = time();
+        if (elgg_trigger_event('profileiconupdate', $user->type, $user)) {
+            error_log(elgg_echo("avatar:upload:success"));
+
+            $view = 'river/user/default/profileiconupdate';
+            elgg_delete_river(array('subject_guid' => $user->guid, 'view' => $view));
+            elgg_create_river_item(array(
+                'view' => $view,
+                'action_type' => 'update',
+                'subject_guid' => $user->guid,
+                'object_guid' => $user->guid,
+            ));
+        }
+	}
+
+
+    elgg_set_ignore_access($ia);
+	echo $user->getIconURL('large');
+       
+    return true;
 }

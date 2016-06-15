@@ -9,7 +9,7 @@
         <div class="left" style="color: #1284ff;" onclick="handle_go_back()"><ons-icon icon="ion-android-arrow-back"></ons-icon></div>
         </ons-toolbar>
 
-        <div class="card" style="background-image:url(<?php echo $user->getIconURL('large'); ?>);">
+        <div class="card" style="background-image:url(<?php echo $user->getIconURL('master'); ?>);">
 
         <div class="card-name" style='padding-top:230px;padding-left:5px;color:#DADADA;text-align:left;'><?php echo ucwords($user->name);?></div>
 
@@ -28,14 +28,14 @@
           <ons-list-item>
             <div class="prop-desc">
               <ons-icon icon="fa-map-marker"></ons-icon>
-              <?php echo $user->city; ?>
+              2-15-13 Hongo Bunkyo Tokyo
             </div>
           </ons-list-item>
 
           <ons-list-item>
             <div class="prop-desc">
               <ons-icon icon="fa-mobile"></ons-icon>
-              <?php echo $user->phone; ?>
+              (111) 123-4567
             </div>
           </ons-list-item>
 
@@ -43,6 +43,13 @@
             <div class="prop-desc">
               <ons-icon icon="fa-envelope"></ons-icon>
               <?php echo $user->email; ?>
+            </div>
+          </ons-list-item>
+
+          <ons-list-item>
+            <div class="prop-desc">
+              <ons-icon icon="fa-clock-o"></ons-icon>
+              Make a Reservation
             </div>
           </ons-list-item>
         </ons-list>
